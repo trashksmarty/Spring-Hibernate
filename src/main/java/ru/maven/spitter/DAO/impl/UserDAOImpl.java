@@ -37,8 +37,20 @@ public class UserDAOImpl implements UserDAO{
     @Override
     @Transactional
     public List<Users> findAllUser() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Users> resoult = sessionFactory.getCurrentSession().createCriteria(Users.class).list();
+        return resoult;
+    }
+
+    @Override
+    @Transactional
+    public void edit(String myParam[]) {
+        Users user = new Users();
+        user.setId(Integer.parseInt(myParam[0]));
+        user.setNickName(myParam[1]);
+        user.setFirstName(myParam[2]);
+        user.setLastName(myParam[3]);
+        user.setEmail(myParam[4]);
+        sessionFactory.getCurrentSession().update(user);
     }
     
-
 }

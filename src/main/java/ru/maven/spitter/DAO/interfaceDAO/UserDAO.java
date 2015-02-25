@@ -13,4 +13,6 @@ public interface UserDAO {
 //    public void findUser();
     
 //    public void deleteUser(Integer id);
+    
+    public void edit(String myParam[]);
 }
