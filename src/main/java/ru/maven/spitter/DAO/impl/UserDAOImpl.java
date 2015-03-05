@@ -3,8 +3,11 @@ package ru.maven.spitter.DAO.impl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Example;
+import org.hibernate.criterion.Expression;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,35 +71,43 @@ public class UserDAOImpl implements UserDAO {
         List<Users> l = new ArrayList<Users>();
         
         Users user = new Users();
+        
+        Criteria crt = sessionFactory.getCurrentSession()
+                .createCriteria(Users.class);
+        
         if (!myParam[1].equals("")) {
             user.setNickName(myParam[1]);
+            crt.add(Restrictions.like("nickName", "%"+myParam[1]+"%").ignoreCase());
         } else {
             user.setNickName(null);
         }
         if (!myParam[2].equals("")) {
             user.setFirstName(myParam[2]);
+            crt.add(Restrictions.like("firstName", "%"+myParam[2]+"%").ignoreCase());
         } else {
             user.setFirstName(null);
         }
         if (!myParam[3].equals("")) {
             user.setLastName(myParam[3]);
+            crt.add(Restrictions.like("lastName", "%"+myParam[3]+"%").ignoreCase());
         } else {
             user.setLastName(null);
         }
         if (!myParam[4].equals("")) {
             user.setEmail(myParam[4]);
+            crt.add(Restrictions.like("email", "%"+myParam[4]+"%").ignoreCase());
         } else {
             user.setEmail(null);
         }
+        
         // ID
         if (!myParam[0].equals("")) {
             l = sessionFactory.getCurrentSession().createQuery("from Users where id=?")
                     .setParameter(0, Integer.parseInt(myParam[0])).list();
             } else {
         //OTHER
-        l = sessionFactory.getCurrentSession().createCriteria(Users.class)
-                .add(Example.create(user).ignoreCase()).list();
-        }
+        l = crt.list();
+        } 
         return l;
     }
     
