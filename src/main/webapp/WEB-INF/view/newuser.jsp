@@ -15,5 +15,6 @@
             <p><input placeholder="Ваш e-mail" name="myParam[]"></p>
             <input type="submit" value="Отправить">
         </form>
+        <form action="hello"><input type="submit" value="Назад"></form>
     </body>
 </html>

@@ -10,9 +10,11 @@ public interface UserDAO {
     
     public List<Users> findAllUser();
     
-//    public void findUser();
+    public List<Users> findUser(String myParam[]);
     
-//    public void deleteUser(Integer id);
+    public void deleteUser(Integer id);
     
     public void edit(String myParam[]);
+    
+    public boolean paramEquals(String[] s);
 }

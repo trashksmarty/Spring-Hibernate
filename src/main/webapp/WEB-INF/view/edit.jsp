@@ -14,7 +14,9 @@
             <p><input placeholder="Ваше Имя" value="${firstname}" name="myParam[]"></p>
             <p><input placeholder="Ваша Фамилия" value="${lastname}" name="myParam[]"></p>
             <p><input placeholder="Ваш e-mail" value="${email}" name="myParam[]"></p>
+            <input type="hidden" name="myParam[]" value="${urladdress}"/>
             <input type="submit" value="Отправить">
         </form>
+            <form action="hello"><input type="submit" value="Назад"></form>
     </body>
 </html>

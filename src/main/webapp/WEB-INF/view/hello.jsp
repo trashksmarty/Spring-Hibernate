@@ -27,7 +27,7 @@
         </table>
         </form>
         <p><a href="newuser">New User</a></p>
-        <p><a href="finduser">All Users</a></p>
+        <p><a href="findallusers">All Users</a></p>
         <p><a href="finduser">Find Users</a></p>
     </body>
 </html>

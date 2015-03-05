@@ -1,13 +1,14 @@
-<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>Поиск пользователя</title>
     </head>
     <body>
-        <h1>Find ${name}</h1>
+        <h1>Поиск</h1>
+        <div align=justify><big><font color="red">${exception}</font></big></div><br>
+    <form action="found">
         <table>
             <thead>
                 <tr>
@@ -16,30 +17,30 @@
                     <th>Имя</th>
                     <th>Фамилия</th>
                     <th>e-mail</th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="element" items="${myList}">
-                    <tr>
-                        <td><c:out value = "${element.getId()}"/></td>
-                        <td><c:out value = "${element.getNickName()}"/></td>
-                        <td><c:out value = "${element.getFirstName()}"/></td>
-                        <td><c:out value = "${element.getLastName()}"/></td>
-                        <td><c:out value = "${element.getEmail()}"/></td>
-                        <td>
-                            <form action="edit" method="post" accept-charset="UTF-8">
-                                <input type="hidden" name="myParam[]" value="${element.getId()}"/>
-                                <input type="hidden" name="myParam[]" value="${element.getNickName()}"/>
-                                <input type="hidden" name="myParam[]" value="${element.getFirstName()}"/>
-                                <input type="hidden" name="myParam[]" value="${element.getLastName()}"/>
-                                <input type="hidden" name="myParam[]" value="${element.getEmail()}"/>
-                                <input type="submit" value="Edit">
-                            </form>
-                        </td>
-                    </tr>
-                </c:forEach>
+                <tr>
+                    <td>
+                        <input placeholder="ID" name="myParam[]" autofocus/>
+                    </td>
+                    <td>
+                        <input placeholder="NickName" name="myParam[]"/>
+                    </td>
+                    <td>
+                        <input placeholder="Имя" name="myParam[]">
+                    </td>
+                    <td>
+                        <input placeholder="Фамилия" name="myParam[]">
+                    </td>
+                    <td>
+                        <input placeholder="e-mail" name="myParam[]">
+                    </td>
+                </tr>
             </tbody>
         </table>
-    </body>
+        <input type="submit" value="Отправить">
+    </form>
+    <form action="hello"><input type="submit" value="Назад"></form>
+</body>
 </html>

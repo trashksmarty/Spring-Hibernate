@@ -7,7 +7,7 @@
     </head>
     <body>
         <?PHP?>
-        <META HTTP-EQUIV="Refresh" CONTENT="1; URL=finduser"> 
+        <META HTTP-EQUIV="Refresh" CONTENT="1; URL=${urladdress}">
         <h2>Изменение завершино</h2>
     </body>
 </html>
