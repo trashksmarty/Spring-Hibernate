@@ -1,4 +1,5 @@
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <tiles:insertDefinition name="spitterTemplate">
@@ -7,7 +8,7 @@
         <div class="body">
             <h1>Поиск</h1>
             <div align=justify><big><font color="red">${exception}</font></big></div><br>
-            <form action="found">
+            <sf:form action="found" method="post" modelAttribute="user">
                 <table>
                     <thead>
                         <tr>
@@ -21,25 +22,25 @@
                     <tbody>
                         <tr>
                             <td>
-                                <input placeholder="ID" name="myParam[]" autofocus/>
+                                <sf:input placeholder="ID" path="id" size="25" id="id"/>
                             </td>
                             <td>
-                                <input placeholder="NickName" name="myParam[]"/>
+                                <sf:input placeholder="NickName" path="nickName" size="25" id="nickName"/>
                             </td>
                             <td>
-                                <input placeholder="Имя" name="myParam[]">
+                                <sf:input placeholder="Имя" path="firstName" size="25" id="firstName"/>
                             </td>
                             <td>
-                                <input placeholder="Фамилия" name="myParam[]">
+                                <sf:input placeholder="Фамилия" path="lastName" size="25" id="lastName"/>
                             </td>
                             <td>
-                                <input placeholder="e-mail" name="myParam[]">
+                                <sf:input placeholder="e-mail" path="email" size="25" id="email"/>
                             </td>
                         </tr>
                     </tbody>
                 </table>
                 <input type="submit" value="Отправить">
-            </form>
+            </sf:form>
             <form action="/Spitter/hello"><input type="submit" value="Назад"></form>
         </div>
 

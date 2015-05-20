@@ -30,6 +30,17 @@
             <artifactId>jsf-impl</artifactId>
             <version>2.2.10</version>
         </dependency>-->
+        <dependency>
+            <groupId>com.lowagie</groupId>
+            <artifactId>itext</artifactId>
+            <version>4.2.1</version>
+        </dependency>
+        <!--Apache POI (work with MS office)-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.12-beta1</version>
+        </dependency>
         <!--JSTL-->
         <dependency>
             <groupId>jstl</groupId>

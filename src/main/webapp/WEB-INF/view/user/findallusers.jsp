@@ -1,9 +1,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
+<%@taglib uri="http://www.springframework.org/tags/form" prefix="sf" %>
+<%@taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 
 <tiles:insertDefinition name="spitterTemplate">
     <tiles:putAttribute name="body">
+        
         <div class="body">
 
             <h1>Find ${name}</h1>
@@ -23,35 +25,41 @@
                 <c:forEach var="element" items="${myList}">
                     <tr>
                         <td><c:out value = "${element.getId()}"/></td>
-                    <td><c:out value = "${element.getNickName()}"/></td>
-                    <td><c:out value = "${element.getFirstName()}"/></td>
-                    <td><c:out value = "${element.getLastName()}"/></td>
-                    <td><c:out value = "${element.getEmail()}"/></td>
+                        <td><c:out value = "${element.getNickName()}"/></td>
+                        <td><c:out value = "${element.getFirstName()}"/></td>
+                        <td><c:out value = "${element.getLastName()}"/></td>
+                        <td><c:out value = "${element.getEmail()}"/></td>
                     <td>
-                        <form action="edit" method="post" accept-charset="UTF-8">
-                            <input type="hidden" name="myParam[]" value="${element.getId()}"/>
-                            <input type="hidden" name="myParam[]" value="${element.getNickName()}"/>
-                            <input type="hidden" name="myParam[]" value="${element.getFirstName()}"/>
-                            <input type="hidden" name="myParam[]" value="${element.getLastName()}"/>
-                            <input type="hidden" name="myParam[]" value="${element.getEmail()}"/>
-                            <input type="hidden" name="myParam[]" value="findallusers"/>
+                        <sf:form action="edit" method="POST" modelAttribute="user" >
+                            <sf:hidden path="id" value="${element.getId()}" id="id"/>
+                            <sf:hidden path="nickName" value="${element.getNickName()}" id="nickName"/>
+                            <sf:hidden path="firstName" value="${element.getFirstName()}" id="firstName"/>
+                            <sf:hidden path="lastName" value="${element.getLastName()}" id="lastName"/>
+                            <sf:hidden path="email" value="${element.getEmail()}" id="email"/>
+                            <input type="hidden" name="myParam" value="findallusers"/>
                             <input type="submit" value="Edit">
-                        </form>
+                        </sf:form>
                     </td>
                     <td>
-                        <form action="delete" method="post" accept-charset="UTF-8">
-                            <input type="hidden" name="myParam[]" value="${element.getId()}"/>
-                            <input type="hidden" name="myParam[]" value="findallusers"/>
+                        <sf:form action="delete" method="POST" modelAttribute="user" >
+                            <sf:hidden path="id" value="${element.getId()}" id="id"/>
+                            <input type="hidden" name="myParam" value="findallusers"/>
                             <input type="submit" value="Delete">
-                        </form>
+                        </sf:form>
                     </td>
                     </tr>
                 </c:forEach>
                 </tbody>
             </table>
             <form action="/Spitter/hello"><input type="submit" value="Назад"></form>
-
+            <form action="downloadExcel" method="POST">
+                <input type="submit" value="Сохранить Excel">
+            </form>
+            <form action="downloadPDF" method="POST">
+                <input type="submit" value="Сохранить PDF">
+            </form>
         </div>
+            
     </tiles:putAttribute>
 
     <tiles:putAttribute name="menu">

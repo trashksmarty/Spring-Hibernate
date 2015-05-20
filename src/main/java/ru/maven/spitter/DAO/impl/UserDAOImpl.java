@@ -1,6 +1,5 @@
 package ru.maven.spitter.DAO.impl;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Criteria;
@@ -27,17 +26,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void saveUser(String myParam[]) throws SQLException {
-        Users user = new Users();
-        user.setNickName(myParam[0]);
-        user.setFirstName(myParam[1]);
-        user.setLastName(myParam[2]);
-        user.setEmail(myParam[3]);
-        sessionFactory.getCurrentSession().saveOrUpdate(user);
-    }
-
-    @Override
-    @Transactional
     public List<Users> findAllUser() {
         List<Users> resoult = sessionFactory.getCurrentSession().createCriteria(Users.class).list();
         return resoult;
@@ -45,85 +33,61 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     @Transactional
-    public void edit(String myParam[]) {
-        Users user = new Users();
-        user.setId(Integer.parseInt(myParam[0]));
-        user.setNickName(myParam[1]);
-        user.setFirstName(myParam[2]);
-        user.setLastName(myParam[3]);
-        user.setEmail(myParam[4]);
-        sessionFactory.getCurrentSession().update(user);
+    public void saveUser(Users user) {
+        sessionFactory.getCurrentSession().saveOrUpdate(user);
     }
 
     @Override
     @Transactional
-    public void deleteUser(Integer id) {
-        Users user = new Users();
-        user.setId(id);
+    public void deleteUser(Users user) {
         sessionFactory.getCurrentSession().delete(user);
     }
 
     @Override
     @Transactional
-    public List<Users> findUser(String myParam[]) {
+    public List<Users> findUser(Users user) {
         List<Users> l = new ArrayList<Users>();
-
-        Users user = new Users();
 
         Criteria crt = sessionFactory.getCurrentSession()
                 .createCriteria(Users.class);
 
-        // Nick, First Name, Last Name, Email.
-        if (!myParam[1].equals("")) {
-            user.setNickName(myParam[1]);
-            crt.add(Restrictions.like("nickName", "%" + myParam[1] + "%").ignoreCase());
-        } else {
-            user.setNickName(null);
-        }
-        if (!myParam[2].equals("")) {
-            user.setFirstName(myParam[2]);
-            crt.add(Restrictions.like("firstName", "%" + myParam[2] + "%").ignoreCase());
-        } else {
-            user.setFirstName(null);
-        }
-        if (!myParam[3].equals("")) {
-            user.setLastName(myParam[3]);
-            crt.add(Restrictions.like("lastName", "%" + myParam[3] + "%").ignoreCase());
-        } else {
-            user.setLastName(null);
-        }
-        if (!myParam[4].equals("")) {
-            user.setEmail(myParam[4]);
-            crt.add(Restrictions.like("email", "%" + myParam[4] + "%").ignoreCase());
-        } else {
-            user.setEmail(null);
-        }
-
         // ID
-        if (!myParam[0].equals("")) {
+        if (user.getId() != null) {
             l = sessionFactory.getCurrentSession().createQuery("from Users where id=?")
-                    .setParameter(0, Integer.parseInt(myParam[0])).list();
+                    .setParameter(0, user.getId()).list();
         } else {
-        // OTHER
+
+            // Nick, First Name, Last Name, Email.
+            if (!user.getNickName().isEmpty()) {
+                crt.add(Restrictions.like("nickName", "%" + user.getNickName() + "%").ignoreCase());
+            }
+            if (!user.getFirstName().isEmpty()) {
+                crt.add(Restrictions.like("firstName", "%" + user.getFirstName() + "%").ignoreCase());
+            }
+            if (!user.getLastName().isEmpty()) {
+                crt.add(Restrictions.like("lastName", "%" + user.getLastName() + "%").ignoreCase());
+            }
+            if (!user.getEmail().isEmpty()) {
+                crt.add(Restrictions.like("email", "%" + user.getEmail() + "%").ignoreCase());
+            }
             l = crt.list();
         }
         return l;
     }
 
     @Override
-    public boolean paramEquals(String[] s) {
-        if (!s[0].equals("")) {
+    public boolean paramEquals(Users user) {
+        if (user.getId() != null) {
             return true;
-        } else if (!s[1].equals("")) {
+        } else if (!user.getNickName().isEmpty()) {
             return true;
-        } else if (!s[2].equals("")) {
+        } else if (!user.getFirstName().isEmpty()) {
             return true;
-        } else if (!s[3].equals("")) {
+        } else if (!user.getLastName().isEmpty()) {
             return true;
-        } else if (!s[4].equals("")) {
+        } else if (!user.getEmail().isEmpty()) {
             return true;
         }
         return false;
     }
-
 }
