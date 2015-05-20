@@ -84,7 +84,6 @@ public class UserController {
     @RequestMapping(value = "/found", method = RequestMethod.POST)
     public String findUser(Users user, Model model, HttpServletRequest request) {
         if (userDao.paramEquals(user)) {
-            System.out.println(user.getId() + " " + user.getNickName() + " " + user.getFirstName() + " " + user.getLastName() + " " + user.getEmail() + ".");
             List<Users> l = userDao.findUser(user);
             if (l.isEmpty()) {
                 model.addAttribute("user", new Users());
