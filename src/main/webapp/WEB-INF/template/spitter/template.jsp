@@ -28,7 +28,7 @@
             }
 
             .menu {
-                padding:50px 10px 0px 10px;
+                padding:40px 10px 0px 15px;
                 width:200px;
                 float:left;
                 visibility: visible;
@@ -46,12 +46,22 @@
                 width:100%;
                 height:20px;
             }
+            .aboutuser {
+                padding:0px;
+                clear:both;
+                position:absolute;
+                right:8px;
+                top:4px;
+            }
 
         </style>
     </head>
     <body>
         <div class="page">
+            <div class="content">
             <tiles:insertAttribute name="header" />
+            <tiles:insertAttribute name="aboutuser" />
+            </div>
             <div class="content">
                 <tiles:insertAttribute name="menu" />
                 <tiles:insertAttribute name="body" />

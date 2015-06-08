@@ -14,6 +14,8 @@ import org.springframework.core.env.Environment;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate4.HibernateTransactionManager;
 import org.springframework.orm.hibernate4.LocalSessionFactoryBuilder;
+import ru.maven.spitter.DAO.entity.Role;
+import ru.maven.spitter.DAO.entity.User;
 import ru.maven.spitter.DAO.entity.Users;
 
 @Configuration
@@ -28,7 +30,8 @@ public class HibernateConfig {
     public SessionFactory sessionFactory(DataSource dataSource) {
         LocalSessionFactoryBuilder sessionFactoryBuilder = new LocalSessionFactoryBuilder(dataSource);
         sessionFactoryBuilder.addPackage("ru.maven.spitter.DAO.entity");
-        sessionFactoryBuilder.addAnnotatedClass(Users.class);
+//        sessionFactoryBuilder.addAnnotatedClass(Users.class);
+        sessionFactoryBuilder.addAnnotatedClasses(Users.class, User.class, Role.class);
         sessionFactoryBuilder.addProperties(hibernateProperties());
         return sessionFactoryBuilder.buildSessionFactory();
     }

@@ -3,9 +3,13 @@ package ru.maven.spitter.config.controller;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,14 +31,18 @@ public class UserController {
     @Autowired
     private SpitterPDFView pdfView;
 
-    @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String newUser(Users user) {
+    @RequestMapping(value = "newuser", method = RequestMethod.POST)
+    public String addUser(@Valid @ModelAttribute("user") Users user, BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            return "user/newuser";
+        }
         userDao.saveUser(user);
         return "redirect:/hello";
     }
 
-    @RequestMapping(value = "/newuser", method = RequestMethod.GET)
-    public String neUser(Model model) {
+    @RequestMapping(value = "newuser", method = RequestMethod.GET)
+    public String newUser(Model model) {
         model.addAttribute("user", new Users());
         return "user/newuser";
     }
@@ -49,25 +57,28 @@ public class UserController {
         return "user/findallusers";
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
     public String edit(String myParam, Model model, Users user) {
-        model.addAttribute("id", user.getId());
-        model.addAttribute("nickname", user.getNickName());
-        model.addAttribute("firstname", user.getFirstName());
-        model.addAttribute("lastname", user.getLastName());
-        model.addAttribute("email", user.getEmail());
         model.addAttribute("urladdress", myParam);
-        model.addAttribute("user", new Users());
+        model.addAttribute("user", user);
         return "user/edit";
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/saveedit", method = RequestMethod.POST)
-    public String saveEdit(String myParam, Model model, Users user) {
+    public String saveEdit(@Valid @ModelAttribute("user") Users user, BindingResult result, Model model, String myParam) {
+        if (result.hasErrors()) {
+            model.addAttribute("user", user);
+            model.addAttribute("urladdress", myParam);
+            return "user/edit";
+        }
         userDao.saveUser(user);
         model.addAttribute("urladdress", myParam);
         return "user/editclose";
     }
 
+    @Secured("ROLE_ADMIN")
     @RequestMapping(value = "/delete", method = RequestMethod.POST)
     public String delete(String myParam, Model model, Users user) {
         userDao.deleteUser(user);
@@ -109,14 +120,12 @@ public class UserController {
     @RequestMapping(value = {"/downloadExcel"}, method = RequestMethod.POST)
     public ModelAndView downloadExcel(HttpServletRequest request) throws ServletException {
         List<Users> myList = (List<Users>) request.getSession().getAttribute("myList");
-        request.logout();
         return new ModelAndView(excelView, "listUsers", myList);
     }
 
     @RequestMapping(value = {"/downloadPDF"}, method = RequestMethod.POST)
     public ModelAndView downloadPDF(HttpServletRequest request) throws ServletException {
         List<Users> myList = (List<Users>) request.getSession().getAttribute("myList");
-        request.logout();
         return new ModelAndView(pdfView, "listUsers", myList);
     }
 }

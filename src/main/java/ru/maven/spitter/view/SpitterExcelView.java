@@ -27,7 +27,7 @@ public class SpitterExcelView extends AbstractExcelView {
         // создать новый лист Excel
         HSSFSheet sheet = workbook.createSheet("Spitter Users");
         sheet.setDefaultColumnWidth(30);
-
+        
         // создать стиль для ячеек заголовков
         CellStyle style = workbook.createCellStyle();
         Font font = workbook.createFont();

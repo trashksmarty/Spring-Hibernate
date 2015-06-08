@@ -6,11 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotEmpty;
 
+@SuppressWarnings("serial")
 @Entity
 @Table(name = "USERS")
 public class Users implements Serializable {
+    private static final long serialVersionUID = 1L;
 
     public Users() {
     }
@@ -21,15 +26,30 @@ public class Users implements Serializable {
     @GenericGenerator(name = "increment", strategy = "increment")
     private Integer id;
 
+    @NotEmpty
+    @Pattern(regexp = "^[а-яА-Я0-9]+$|^[a-zA-Z0-9]+$",
+            message = "Username must be alphanumeric with no spaces")
+    @Size(min = 2, max = 20, message = "Minimum 2, maximum 20 words.")
     @Column(name = "NICKNAME")
     private String nickName;
 
+    @NotEmpty
+    @Pattern(regexp = "^[а-яА-Я]+$|^[a-zA-Z]+$",
+            message = "Username must be alphanumeric with no spaces")
+    @Size(min = 2, max = 20, message = "Minimum 2, maximum 20 words.")
     @Column(name = "FIRSTNAME")
     private String firstName;
 
+    @NotEmpty
+    @Pattern(regexp = "^[а-яА-Я]+$|^[a-zA-Z]+$",
+            message = "Username must be alphanumeric with no spaces")
+    @Size(min = 2, max = 20, message = "Minimum 2, maximum 20 words.")
     @Column(name = "LASTNAME")
     private String lastName;
 
+    @NotEmpty
+    @Pattern(regexp = "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,4}",
+            message = "Invalid email address.")
     @Column(name = "EMAIL")
     private String email;
 

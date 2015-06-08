@@ -6,6 +6,7 @@
  
     <definition name="spitterTemplate" template="/WEB-INF/template/spitter/template.jsp">
         <put-attribute name="header" value="/WEB-INF/template/spitter/header.jsp" />
+        <put-attribute name="aboutuser" value="/WEB-INF/template/spitter/aboutuser.jsp" />
         <put-attribute name="menu" value="/WEB-INF/template/spitter/menu.jsp" />
         <put-attribute name="footer" value="/WEB-INF/template/spitter/footer.jsp" />
     </definition>

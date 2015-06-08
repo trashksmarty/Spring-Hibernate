@@ -6,13 +6,19 @@ import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+import ru.maven.spitter.DAO.entity.Role;
+import ru.maven.spitter.DAO.entity.User;
 import ru.maven.spitter.DAO.entity.Users;
 import ru.maven.spitter.DAO.interfaceDAO.UserDAO;
 
 @Repository
 public class UserDAOImpl implements UserDAO {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private SessionFactory sessionFactory;
@@ -35,6 +41,16 @@ public class UserDAOImpl implements UserDAO {
     @Transactional
     public void saveUser(Users user) {
         sessionFactory.getCurrentSession().saveOrUpdate(user);
+    }
+
+    @Override
+    public void saveUser(User user) {
+        sessionFactory.getCurrentSession().saveOrUpdate(user);
+    }
+
+    @Override
+    public void saveRole(Role role) {
+        sessionFactory.getCurrentSession().saveOrUpdate(role);
     }
 
     @Override
@@ -89,5 +105,34 @@ public class UserDAOImpl implements UserDAO {
             return true;
         }
         return false;
+    }
+
+    @Override
+    @Transactional
+    public void insertUser(User user) {
+        String salt = "spitter";
+        String ss = user.getPassword().substring(0, 4);
+        //Encrypting password
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEnabled(1);
+        Role role = new Role();
+        role.setRole("ROLE_USER");
+        role.setUsername(user.getUsername());
+        saveUser(user);
+        saveRole(role);
+    }
+
+    @Override
+    @Transactional
+    public boolean volInsertUser(User user) {
+        List<Users> l = new ArrayList<Users>();
+        Criteria crt = sessionFactory.getCurrentSession()
+                .createCriteria(User.class);
+        crt.add(Restrictions.like("username", user.getUsername()).ignoreCase());
+        l = crt.list();
+        if (l.isEmpty()) {
+            return false;
+        }
+        return true;
     }
 }

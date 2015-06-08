@@ -8,7 +8,7 @@
         <div class="body">
             <h1>Поиск</h1>
             <div align=justify><big><font color="red">${exception}</font></big></div><br>
-            <sf:form action="found" method="post" modelAttribute="user">
+                    <sf:form action="found" method="post" modelAttribute="user">
                 <table>
                     <thead>
                         <tr>
@@ -39,6 +39,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <input type="hidden" name="myParam" value="finduser"/>
                 <input type="submit" value="Отправить">
             </sf:form>
             <form action="/Spitter/hello"><input type="submit" value="Назад"></form>

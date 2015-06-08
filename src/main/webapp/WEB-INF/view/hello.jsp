@@ -1,11 +1,12 @@
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page session="false"%>
 
 <tiles:insertDefinition name="spitterTemplate">
     <tiles:putAttribute name="body">
 
         <div class="body">
-            <h1>Hello ${name}!</h1>
+            <h1>${name}!</h1>
 
             <form action="hello">
                 <table border="0">

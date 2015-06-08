@@ -26,8 +26,13 @@ public class SpitterPDFView extends AbstractPdfView {
 
         List<Users> listUsers = (List<Users>) map.get("listUsers");
 
+        int[] i = {10,25,25,25,25};
+        
         //Создание таблицы
         Table table = new Table(5);
+        table.setWidths(i);
+        table.setSpacing(0);
+        table.setPadding(4);
         table.setAlignment(PATH_VARIABLES);
         table.setWidth(110);
         table.setBorderWidth(1);
@@ -55,7 +60,7 @@ public class SpitterPDFView extends AbstractPdfView {
             table.addCell(new Paragraph(user.getEmail(), font));
         }
 
-        document.add(new Paragraph("Find Users.", font));
+        document.add(new Paragraph("Found Users.", font));
 
         document.add(table);
     }

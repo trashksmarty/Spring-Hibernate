@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<flow xmlns="http://www.springframework.org/schema/webflow"
+      xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.springframework.org/schema/webflow 
+  http://www.springframework.org/schema/webflow/spring-webflow-2.0.xsd">
+
+    <var name="user" 
+         class="ru.maven.spitter.DAO.entity.Users"/>  
+
+    <view-state id="createReady">
+        <transition on="submit" to="createUser" />
+    </view-state>
+
+    <action-state id="createUser">
+        <evaluate result="user" expression="addUsersFlow.createUser(requestParameters.name)" />
+        <transition to="userReady" />
+    </action-state>
+
+    <end-state id="userReady">
+        <output name="user" />
+    </end-state>
+</flow>

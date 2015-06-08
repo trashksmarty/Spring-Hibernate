@@ -4,28 +4,52 @@
 
 <tiles:insertDefinition name="spitterTemplate">
     <tiles:putAttribute name="body">
+        
+        <style>
+            .error {
+                padding: 2px;
+                margin-bottom: 5px;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                color: #a94442;
+                background-color: #f2dede;
+                border-color: #ebccd1;
+            }
+        </style>
 
         <div class="body">
             <h2>Create new User</h2>
 
-            <sf:form action="registration" method="POST" modelAttribute="user" >
+            <sf:form method="POST" modelAttribute="user" >
                 <fieldset>
                     <table cellspacing="0">
                         <tr>
-                            <th><label for="nickName">NickName</label></th>
-                            <td><sf:input path="nickName" size="25" id="nickName"/></td>
+                            <th><label for="nick">NickName: </label></th>
+                            <td><sf:input path="nickName" size="25" id="nick"/></td>
+                            <td>
+                                <sf:errors path="nickName" class="error"/>
+                            </td>
                         </tr>
                         <tr>
                             <th><label for="firstName">FirstName</label></th>
                             <td><sf:input path="firstName" size="25" id="firstName"/></td>
+                            <td>
+                                <sf:errors path="firstName" class="error"/>
+                            </td>
                         </tr>
                         <tr>
                             <th><label for="lastName">LastName</label></th>
                             <td><sf:input path="lastName" size="25" id="lastName"/></td>
+                            <td>
+                                <sf:errors path="lastName" class="error"/>
+                            </td>
                         </tr>
                         <tr>
                             <th><label for="email">E-mail</label></th>
                             <td><sf:input path="email" size="25" id="email"/></td>
+                            <td>
+                                <sf:errors path="email" class="error"/>
+                            </td>
                         </tr>
                     </table>
                 </fieldset>
